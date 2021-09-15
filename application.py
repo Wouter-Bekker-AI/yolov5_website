@@ -15,23 +15,24 @@ model.eval()
 
 @application.route("/", methods=["GET", "POST"])
 def predict():
-    if request.method == "POST":
-        if "file" not in request.files:
-            return redirect(request.url)
-        file = request.files["file"]
-        image_bytes = file.read()
-        image_name = file.filename
+    if len(request.files['file'].filename) != 0:
+        if request.method == "POST":
+            file = request.files["file"]
+            image_bytes = file.read()
+            image_name = file.filename
 
-        filename, file_extension = os.path.splitext(image_name)
+            filename, file_extension = os.path.splitext(image_name)
 
-        if file_extension in ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.tiff', '.dng', '.webp', '.mpo']:
-            img = Image.open(io.BytesIO(image_bytes))
-            results = model(img, size=640)
-            results.render()
-            results.save('./static/')
+            if file_extension in ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.tiff', '.dng', '.webp', '.mpo']:
+                img = Image.open(io.BytesIO(image_bytes))
+                results = model(img, size=640)
+                results.render()
+                results.save('./static/')
 
-        return render_template("return.html")
-    return render_template("index.html")
+            return render_template("return.html")
+        return render_template("index.html")
+    else:
+        return render_template("index.html")
 
 
 if __name__ == "__main__":
