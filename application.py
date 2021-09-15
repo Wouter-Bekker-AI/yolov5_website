@@ -19,6 +19,7 @@ def predict():
         if request.method == "POST":
             file = request.files["file"]
             image_bytes = file.read()
+            file.save('static/image0.jpg')
             image_name = file.filename
 
             filename, file_extension = os.path.splitext(image_name)
@@ -28,8 +29,12 @@ def predict():
                 results = model(img, size=640)
                 results.render()
                 results.save('./static/')
-
-            return render_template("return.html")
+                return render_template("return.html")
+            else:
+                return 'That is not a valid image.' \
+                       ' Valid formats: [.bmp, .jpg, .jpeg, .png, .tif, .tiff, .dng, .webp, .mpo].' \
+                       ' Please click the back button to return to the upload screen.'
+        
         return render_template("index.html")
     else:
         return render_template("index.html")
