@@ -24,7 +24,7 @@ def predict():
 
             filename, file_extension = os.path.splitext(image_name)
 
-            if file_extension in ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.tiff', '.dng', '.webp', '.mpo']:
+            if file_extension.lower() in ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.tiff', '.dng', '.webp', '.mpo']:
                 img = Image.open(io.BytesIO(image_bytes))
                 results = model(img, size=640)
                 results.render()
