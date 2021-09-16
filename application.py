@@ -20,11 +20,11 @@ def predict():
             file = request.files["file"]
             image_bytes = file.read()
             file.save('static/image0.jpg')
-            image_name = file.filename
+            
+            #image_name = file.filename
+            #filename, file_extension = os.path.splitext(image_name)
 
-            filename, file_extension = os.path.splitext(image_name)
-
-            if file_extension.lower() in ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.tiff', '.dng', '.webp', '.mpo']:
+            if 'image' in file.mimetype:
                 img = Image.open(io.BytesIO(image_bytes))
                 results = model(img, size=640)
                 results.render()
